@@ -24,6 +24,7 @@
 - [Repository Structure](#repository-structure)
 - [Prerequisites](#prerequisites)
 - [Hardware Requirements](#hardware-requirements)
+- [Experiments](#experiments)
 - [Documentation](#documentation)
 
 ## Overview
@@ -136,6 +137,10 @@ Cloudera products in scope: **Cloudera Machine Learning**. External: OpenSearch 
 | Launchable / demo | 2 CPU, 4 GB RAM for CML session/model; OpenSearch single-node ~2 GB RAM |
 | Production / enterprise | Size OpenSearch and LLM backends to concurrency; GPU only if your chosen models require it |
 
+## Experiments
+
+A controlled multi-hop QA run (HotPotQA / MuSiQue / 2WikiMultihop-*style* fixtures) compares Full, Static, and RCR on token use and answer quality. Methodology, per-study tables, and how to reproduce: [`docs/experiments/multihop-rcr-token-savings.md`](docs/experiments/multihop-rcr-token-savings.md).
+
 ## Documentation
 
 - [`docs/amp-delivery.md`](docs/amp-delivery.md) — packaging / publish checklist
@@ -143,6 +148,7 @@ Cloudera products in scope: **Cloudera Machine Learning**. External: OpenSearch 
 - [`docs/cloudera-litellm.md`](docs/cloudera-litellm.md)
 - [`docs/settings-capability-discovery.md`](docs/settings-capability-discovery.md)
 - [`docs/next-step-build-sheet.md`](docs/next-step-build-sheet.md)
+- [`docs/experiments/multihop-rcr-token-savings.md`](docs/experiments/multihop-rcr-token-savings.md) — multi-hop token-savings experiment
 - [AMP project specification](https://docs.cloudera.com/machine-learning/cloud/applied-ml-prototypes/topics/ml-amp-project-spec.html)
 - Paper: https://arxiv.org/html/2508.04903v3#Sx2
 - OpenSearch k-NN: https://docs.opensearch.org/latest/query-dsl/specialized/k-nn/
