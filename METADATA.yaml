@@ -1,0 +1,51 @@
+# Cloudera Blueprint catalog metadata
+# Template: https://github.com/kevinbtalbert/Cloudera-Blueprints-Standard
+
+# --- Identity ---
+name: "RCR — Role-Based Agent Routing"
+slug: "role-based-agent-routing"
+description: "RCR (Role-aware Context Routing): token-budgeted multi-agent memory slices with OpenSearch and LiteLLM—less full-history dumping, lower LLM cost."
+reprise_link: "https://github.com/cloudera/RoleBasedAgentRouting"
+
+# --- Classification (website filters) ---
+catalog_classification:
+  - Launchable (AMP)
+launchable: true
+lifecycle_status: Active
+
+# --- Industry & alignment ---
+industry: General
+industry_alignment: "Horizontal"
+target_vertical: ""
+
+# --- Tags (website search & browse) ---
+tags:
+  - agents
+  - routing
+  - rcr-router
+  - opensearch
+  - litellm
+  - orchestration
+  - cloudera-machine-learning
+
+# --- Relationships ---
+product_mapping:
+  - Cloudera Machine Learning
+  - Cloudera AI Inference Service
+# model_dependencies:
+#   - configure chat + embedding models via LiteLLM / Cloudera AI Inference
+
+# --- Provenance ---
+publisher: cloudera
+source: Internal
+
+# --- Repository & assets ---
+public_github_link: "https://github.com/cloudera/RoleBasedAgentRouting"
+
+# --- Ownership ---
+maintainer_name: "Cloudera"
+
+# --- Dates ---
+date_created: "2026-09-21"
+date_updated: "2026-09-22"
+published_date: "2026-09-22"

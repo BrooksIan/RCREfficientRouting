@@ -1,0 +1,16 @@
+# Optional LiteLLM router / model aliases for Role-Based Agent Routing.
+# Used when LITELLM_CONFIG is set, or as documentation for proxy deploy.
+
+model_list:
+  - model_name: chat-default
+    litellm_params:
+      model: gpt-4o-mini
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: embed-default
+    litellm_params:
+      model: text-embedding-3-small
+      api_key: os.environ/OPENAI_API_KEY
+
+litellm_settings:
+  drop_params: true

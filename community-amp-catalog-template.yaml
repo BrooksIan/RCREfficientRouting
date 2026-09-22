@@ -1,0 +1,36 @@
+name: Community
+
+entries:
+  - title: RCR — Role-Based Agent Routing
+    label: RoleBasedAgentRouting
+    short_description: |
+      RCR (Role-aware Context Routing): token-budgeted multi-agent memory slices
+      with OpenSearch and LiteLLM—cut redundant context cost vs full-history dumps.
+    long_description: |
+      This AMP implements RCR (Role-aware Context Routing) for Planner, Searcher,
+      and Recommender agents. OpenSearch holds shared working memory and knowledge;
+      LiteLLM serves completions and embeddings (including Cloudera AI Inference).
+      A Streamlit lab compares Full, Static, and RCR strategies on tokens and quality.
+      Optional Settings discovery assigns models per role; opt-in task→model routing
+      can rebind endpoints from query task and knowledge-store strength.
+    long_description_html: |
+      <p><strong>RCR</strong> (Role-aware Context Routing) gives each agent a scored,
+      token-budgeted memory slice instead of the full shared history.</p>
+      <p>OpenSearch stores working memory and knowledge; LiteLLM provides chat and
+      embeddings (Cloudera AI Inference compatible). Compare Full / Static / RCR
+      in the Streamlit UI. Optional capability discovery and task→model routing
+      map work to the right endpoint.</p>
+    image_path: >-
+      https://raw.githubusercontent.com/cloudera/RoleBasedAgentRouting/main/assets/images/cover.png
+    tags:
+      - Agents
+      - Routing
+      - RCR
+      - Orchestration
+      - CML
+      - OpenSearch
+      - LiteLLM
+    git_url: 'https://github.com/cloudera/RoleBasedAgentRouting'
+    is_prototype: true
+    is_community: true
+    is_new: true

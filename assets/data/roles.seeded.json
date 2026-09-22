@@ -1,0 +1,38 @@
+[
+  {
+    "role": "planner",
+    "description": "Decomposes user queries into plans and search intents.",
+    "token_budget_offset": 300,
+    "keywords": [
+      "plan",
+      "decompose",
+      "intent",
+      "strategy",
+      "subquestion"
+    ]
+  },
+  {
+    "role": "searcher",
+    "description": "Retrieves evidence from OpenSearch knowledge and working memory.",
+    "token_budget_offset": 200,
+    "keywords": [
+      "evidence",
+      "fact",
+      "retrieve",
+      "document",
+      "search"
+    ]
+  },
+  {
+    "role": "recommender",
+    "description": "Synthesizes a final answer from routed plan and evidence context.",
+    "token_budget_offset": 100,
+    "keywords": [
+      "answer",
+      "summary",
+      "recommend",
+      "conclude",
+      "final"
+    ]
+  }
+]

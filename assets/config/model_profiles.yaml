@@ -1,0 +1,44 @@
+# Multi-LLM profiles for Role-Based Agent Routing.
+# Select with: export RCR_MODEL_PROFILE=<name>
+#
+# Resolution order per role:
+#   1) LITELLM_MODEL_<ROLE> / CLOUDERA_AI_INFERENCE_MODEL_<ROLE>
+#   2) LITELLM_API_BASE_<ROLE> / CLOUDERA_AI_INFERENCE_API_BASE_<ROLE>
+#   3) profile YAML model / api_base
+#   4) global LITELLM_MODEL / CLOUDERA_AI_INFERENCE_* defaults
+
+active_profile: single-nemotron
+
+profiles:
+  # All agents inherit the global default chat model/endpoint from env.
+  single-nemotron:
+    description: "All agents share the default Cloudera chat model."
+    roles: {}
+
+  # Distinct LiteLLM proxy aliases — wire each alias to a CAIIS upstream in litellm config.
+  split-via-proxy:
+    description: "Distinct LiteLLM aliases per role (configure upstreams in the proxy)."
+    roles:
+      planner: { model: cloudera-planner, label: planner }
+      searcher: { model: cloudera-searcher, label: searcher }
+      recommender: { model: cloudera-recommender, label: recommender }
+      router: { model: cloudera-router, label: router }
+
+  # Same model name pattern; override per-role bases/models via env for true multi-endpoint.
+  split-direct:
+    description: >
+      Use with per-role CLOUDERA_AI_INFERENCE_API_BASE_* and MODEL_* env vars
+      when each agent has its own CAIIS endpoint.
+    roles:
+      planner: { label: planner }
+      searcher: { label: searcher }
+      recommender: { label: recommender }
+      router: { label: router }
+
+  single-default:
+    description: "Fallback for unit tests / mock mode."
+    roles:
+      planner: { model: mock-llm, label: planner }
+      searcher: { model: mock-llm, label: searcher }
+      recommender: { model: mock-llm, label: recommender }
+      router: { model: mock-llm, label: router }

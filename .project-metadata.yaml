@@ -1,0 +1,227 @@
+name: RCR — Role-Based Agent Routing
+description: |
+  RCR (Role-aware Context Routing): multi-agent Planner/Searcher/Recommender
+  with token-budgeted memory slices (RCR-Router), OpenSearch shared
+  memory/knowledge, and LiteLLM completions/embeddings.
+author: Cloudera
+specification_version: 1.0
+prototype_version: 1.0
+date: "2026-09-22"
+
+environment_variables:
+  RCR_USE_OPENSEARCH:
+    default: "false"
+    description: "Set true to use OpenSearch for working memory and knowledge indices."
+    required: false
+  OPENSEARCH_HOST:
+    default: "localhost"
+    description: "OpenSearch hostname."
+    required: false
+  OPENSEARCH_PORT:
+    default: "9200"
+    description: "OpenSearch port."
+    required: false
+  OPENSEARCH_EMBED_DIM:
+    default: "8"
+    description: "knn_vector dimension; must match embedding model (8 for mock). Auto-updated on live probe."
+    required: false
+  RCR_EMBED_BACKEND:
+    default: "auto"
+    description: "Embedding backend: auto | mock | litellm. auto uses CAIIS/LiteLLM when embed model+base are set."
+    required: false
+  RCR_EMBED_FALLBACK_MOCK:
+    default: "true"
+    description: "If true, fall back to mock/hash vectors when live /embeddings fails."
+    required: false
+  RCR_RECREATE_INDICES_ON_DIM_MISMATCH:
+    default: "false"
+    description: "If true, drop+recreate OpenSearch indices when knn dim differs from live embed dim."
+    required: false
+  RCR_USE_MOCK_LLM:
+    default: "false"
+    description: "Use MockLLMClient when true. Set false to use LiteLLM → Cloudera AI Inference (chat + embed)."
+    required: false
+  LITELLM_API_BASE:
+    default: ""
+    description: "LiteLLM proxy base URL (e.g. http://litellm:4000). Preferred path for Cloudera-hosted models."
+    required: false
+  LITELLM_API_KEY:
+    default: ""
+    description: "LiteLLM proxy master/virtual key (LITELLM_MASTER_KEY)."
+    required: false
+  RCR_MODEL_PROFILE:
+    default: "single-nemotron"
+    description: "Model profile from assets/config/model_profiles.yaml (single-nemotron | split-via-proxy | split-direct)."
+    required: false
+  RCR_LLM_AGENT_ROUTER:
+    default: "false"
+    description: "If true, use a router LLM to choose which agents run each round."
+    required: false
+  LITELLM_MODEL:
+    default: "cloudera-chat"
+    description: "Chat model alias (proxy) or openai/<name> for direct CAIIS."
+    required: false
+  LITELLM_MODEL_PLANNER:
+    default: ""
+    description: "Optional LiteLLM model override for the Planner agent."
+    required: false
+  LITELLM_MODEL_SEARCHER:
+    default: ""
+    description: "Optional LiteLLM model override for the Searcher agent."
+    required: false
+  LITELLM_MODEL_RECOMMENDER:
+    default: ""
+    description: "Optional LiteLLM model override for the Recommender agent."
+    required: false
+  LITELLM_MODEL_ROUTER:
+    default: ""
+    description: "Optional LiteLLM model for LLM agent-activation routing."
+    required: false
+  CLOUDERA_AI_INFERENCE_API_BASE_PLANNER:
+    default: ""
+    description: "Optional per-role CAIIS base URL for Planner."
+    required: false
+  CLOUDERA_AI_INFERENCE_MODEL_PLANNER:
+    default: ""
+    description: "Optional per-role CAIIS model for Planner."
+    required: false
+  CLOUDERA_AI_INFERENCE_API_BASE_SEARCHER:
+    default: ""
+    description: "Optional per-role CAIIS base URL for Searcher."
+    required: false
+  CLOUDERA_AI_INFERENCE_MODEL_SEARCHER:
+    default: ""
+    description: "Optional per-role CAIIS model for Searcher."
+    required: false
+  CLOUDERA_AI_INFERENCE_API_BASE_RECOMMENDER:
+    default: ""
+    description: "Optional per-role CAIIS base URL for Recommender."
+    required: false
+  CLOUDERA_AI_INFERENCE_MODEL_RECOMMENDER:
+    default: ""
+    description: "Optional per-role CAIIS model for Recommender."
+    required: false
+  LITELLM_EMBED_MODEL:
+    default: "cloudera-embed"
+    description: "Embedding model alias (proxy) or openai/<name> for direct CAIIS."
+    required: false
+  CLOUDERA_AI_INFERENCE_API_BASE:
+    default: ""
+    description: "CAIIS OpenAI-compatible base URL ending in /v1 (direct mode or proxy upstream)."
+    required: false
+  CLOUDERA_AI_INFERENCE_MODEL:
+    default: ""
+    description: "Cloudera AI Registry model name for chat completions."
+    required: false
+  CLOUDERA_AI_INFERENCE_EMBED_API_BASE:
+    default: ""
+    description: "Optional CAIIS embed endpoint base URL ending in /v1."
+    required: false
+  CLOUDERA_AI_INFERENCE_EMBED_MODEL:
+    default: ""
+    description: "Optional Cloudera embed model name."
+    required: false
+  CDP_TOKEN:
+    default: ""
+    description: "Cloudera workload auth token for CAIIS (or use CLOUDERA_AI_INFERENCE_API_KEY / CML /tmp/jwt)."
+    required: false
+  CLOUDERA_AI_INFERENCE_API_KEY:
+    default: ""
+    description: "Alternate name for CAIIS API key / CDP token."
+    required: false
+  RCR_FORCE_DIRECT_CAIIS:
+    default: "false"
+    description: "If true, call CAIIS directly via LiteLLM SDK (skip proxy) when CLOUDERA_AI_INFERENCE_API_BASE is set."
+    required: false
+  RCR_DEFAULT_STRATEGY:
+    default: "rcr"
+    description: "Default routing strategy: rcr | static | full."
+    required: false
+  RCR_BUDGET_PRESET:
+    default: "savings"
+    description: "Token budget preset: savings (tighter B_i, clear RCR cuts) | paper (§2-scale) | demo (tiny local)."
+    required: false
+  RCR_BUDGET_SCALE:
+    default: ""
+    description: "Optional multiplier for resolved budgets (e.g. 0.75). Leave empty for 1.0."
+    required: false
+  RCR_TASK_MODEL_ROUTING:
+    default: "false"
+    description: "Opt-in: classify query + probe knowledge store, then bind agents to matching Settings endpoints. Off by default; UI checkbox can enable per run."
+    required: false
+  RCR_MAX_ROUNDS:
+    default: "3"
+    description: "Default iterative routing rounds T."
+    required: false
+  OPENAI_API_KEY:
+    default: ""
+    description: "Optional non-Cloudera provider key for LiteLLM."
+    required: false
+
+runtimes:
+  - editor: Workbench
+    kernel: Python 3.10
+    edition: Standard
+
+tasks:
+  - type: run_session
+    name: Install Dependencies
+    script: 0_session-install-dependencies/install-dependencies.py
+    short_summary: Install Requirements and Dependencies
+    kernel: python3
+    cpu: 2
+    memory: 4
+
+  - type: create_job
+    name: Seed Role Catalog and Knowledge
+    entity_label: seed_role_catalog
+    script: 1_job-seed-role-catalog/job.py
+    arguments: None
+    cpu: 1
+    memory: 4
+    short_summary: Create OpenSearch indices (if enabled) and seed roles + knowledge corpus.
+    environment:
+      TASK_TYPE: CREATE/RUN_JOB
+
+  - type: run_job
+    entity_label: seed_role_catalog
+    short_summary: Seed roles and knowledge corpus.
+
+  - type: create_model
+    name: role-based-agent-router
+    entity_label: role-router-model
+    description: Run multi-agent RCR routing and return answer plus routing traces.
+    short_summary: Role-based agent router model
+    default_resources:
+      cpu: 2
+      memory: 4
+      gpu: 0
+    default_replication_policy:
+      type: fixed
+      num_replicas: 1
+
+  - type: build_model
+    name: Build Role Router Model
+    entity_label: role-router-model
+    comment: First build by the AMP
+    examples:
+      - request:
+          prompt: What drove Acme Corp revenue growth in Q3?
+          strategy: rcr
+          max_rounds: 3
+    target_file_path: 2_model-deploy-router/launch-model.py
+    target_function_name: api_wrapper
+
+  - type: deploy_model
+    entity_label: role-router-model
+
+  - type: start_application
+    name: Role-Based Agent Routing UI
+    short_summary: Compare Full / Static / RCR routing with per-agent context traces.
+    long_summary: |
+      Streamlit application to submit queries, inspect routed context per agent/round,
+      and compare token usage across routing strategies.
+    subdomain: role-based-agent-routing
+    script: 3_app-run-routing-ui/run.sh
+    environment_variables:
+      TASK_TYPE: START_APPLICATION

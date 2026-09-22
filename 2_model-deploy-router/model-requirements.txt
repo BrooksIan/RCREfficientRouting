@@ -1,0 +1,5 @@
+## Model image dependencies installed by cdsw-build.sh
+-e .
+opensearch-py>=2.4.0
+litellm>=1.40.0
+pyyaml>=6.0

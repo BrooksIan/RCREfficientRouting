@@ -1,0 +1,78 @@
+{
+  "description": "Synthetic multi-hop QA fixtures in the style of HotPotQA, MuSiQue, and 2WikiMultihop. Not the official benchmark dumps — designed so Full-context M_t is large enough for RCR budgets to matter.",
+  "citation": "Liu et al., RCR-Router, arXiv:2508.04903v3 §Experiments",
+  "questions": [
+    {
+      "id": "hotpot-bridge-1",
+      "benchmark": "hotpotqa_style",
+      "query": "Which river flows through the city that hosts the headquarters of the company that makes the Voltara battery?",
+      "gold_answer": "The River Meriden flows through Meriden City, home of Voltara Energy headquarters.",
+      "support_ids": ["hp-voltara-hq", "hp-meriden-city", "hp-meriden-river"],
+      "hops": 2
+    },
+    {
+      "id": "hotpot-bridge-2",
+      "benchmark": "hotpotqa_style",
+      "query": "What year was the university founded that awarded a doctorate to the inventor of the Helios solar cell?",
+      "gold_answer": "Northbridge University was founded in 1887; it awarded the doctorate to Mira Chen, inventor of the Helios cell.",
+      "support_ids": ["hp-helios-inventor", "hp-chen-phd", "hp-northbridge-founded"],
+      "hops": 2
+    },
+    {
+      "id": "hotpot-bridge-3",
+      "benchmark": "hotpotqa_style",
+      "query": "Who is the current CEO of the airline that operates Hub Terminal B at Port Haven Airport?",
+      "gold_answer": "Liora Vance is CEO of Bluespan Air, which operates Hub Terminal B at Port Haven Airport.",
+      "support_ids": ["hp-port-haven-b", "hp-bluespan-terminal", "hp-bluespan-ceo"],
+      "hops": 2
+    },
+    {
+      "id": "musique-comp-1",
+      "benchmark": "musique_style",
+      "query": "What is the population of the capital of the country where Mount Kestrel is located?",
+      "gold_answer": "Mount Kestrel is in Eldoria; Eldoria's capital Aurelia has about 2.4 million residents.",
+      "support_ids": ["mq-kestrel-country", "mq-eldoria-capital", "mq-aurelia-pop"],
+      "hops": 3
+    },
+    {
+      "id": "musique-comp-2",
+      "benchmark": "musique_style",
+      "query": "Which language is official in the nation that produces the most Orchid tea?",
+      "gold_answer": "Serrania produces the most Orchid tea; its official language is Serranic.",
+      "support_ids": ["mq-orchid-top", "mq-serrania-tea", "mq-serrania-lang"],
+      "hops": 2
+    },
+    {
+      "id": "musique-comp-3",
+      "benchmark": "musique_style",
+      "query": "How many terminals does the busiest airport in the federation that includes Lake Brim have?",
+      "gold_answer": "Lake Brim is in the Northwind Federation; its busiest airport is Gale International with 5 terminals.",
+      "support_ids": ["mq-brim-fed", "mq-northwind-busy-airport", "mq-gale-terminals"],
+      "hops": 3
+    },
+    {
+      "id": "wiki-chain-1",
+      "benchmark": "2wiki_style",
+      "query": "Where was the spouse of Admiral Petra Holm born?",
+      "gold_answer": "Admiral Petra Holm's spouse is Dr. Elias Holm, who was born in Frosthaven.",
+      "support_ids": ["wk-petra-spouse", "wk-elias-birthplace"],
+      "hops": 2
+    },
+    {
+      "id": "wiki-chain-2",
+      "benchmark": "2wiki_style",
+      "query": "What award did the author of 'Glass Orchard' receive in 2019?",
+      "gold_answer": "Nia Okoro wrote Glass Orchard and received the Amber Quill Award in 2019.",
+      "support_ids": ["wk-glass-author", "wk-okoro-award"],
+      "hops": 2
+    },
+    {
+      "id": "wiki-chain-3",
+      "benchmark": "2wiki_style",
+      "query": "Which mountain range contains the peak climbed by the leader of the 2014 Eastlight Expedition?",
+      "gold_answer": "Captain Rhee led the 2014 Eastlight Expedition and climbed Mount Vire within the Silverspine Range.",
+      "support_ids": ["wk-eastlight-leader", "wk-rhee-peak", "wk-vire-range"],
+      "hops": 2
+    }
+  ]
+}

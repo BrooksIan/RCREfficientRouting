@@ -1,0 +1,42 @@
+# LiteLLM proxy config TEMPLATE for Cloudera AI Inference Service (CAIIS).
+# Prefer generating a concrete file:
+#   python scripts/render_litellm_cloudera_config.py
+#   docker compose -f deploy/docker-compose.litellm.yaml up -d
+#
+# Docs:
+#   https://docs.cloudera.com/machine-learning/cloud/ai-inference/topics/ml-caii-make-inference-call-model-endpoint-with-openai-api.html
+#   https://docs.litellm.ai/docs/providers/openai_compatible
+
+model_list:
+  - model_name: cloudera-chat
+    litellm_params:
+      model: openai/REPLACE_WITH_REGISTRY_MODEL_NAME
+      api_base: https://REPLACE_DOMAIN/namespaces/serving-default/endpoints/REPLACE_ENDPOINT/v1
+      api_key: os.environ/CDP_TOKEN
+      drop_params: true
+
+  - model_name: cloudera-embed
+    litellm_params:
+      model: openai/REPLACE_WITH_EMBED_MODEL_NAME
+      api_base: https://REPLACE_DOMAIN/namespaces/serving-default/endpoints/REPLACE_EMBED_ENDPOINT/v1
+      api_key: os.environ/CDP_TOKEN
+      drop_params: true
+
+  - model_name: cloudera-chat-alt
+    litellm_params:
+      model: openai/REPLACE_WITH_ALT_MODEL_NAME
+      api_base: https://REPLACE_DOMAIN/namespaces/serving-default/endpoints/REPLACE_ENDPOINT/v1
+      api_key: os.environ/CDP_TOKEN
+      drop_params: true
+
+router_settings:
+  routing_strategy: simple-shuffle
+  num_retries: 2
+  timeout: 120
+
+litellm_settings:
+  drop_params: true
+  set_verbose: false
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY

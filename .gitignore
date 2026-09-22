@@ -1,0 +1,37 @@
+# Local / tooling (never ship in AMP zip)
+.*
+!.gitignore
+!.project-metadata.yaml
+!.env.example
+
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Secrets & local operator state
+.env
+.rcr/
+*.pem
+*.key
+
+# Generated / local deploy artifacts
+deploy/litellm_config.cloudera.generated.yaml
+0_session-install-dependencies/pip-req.log
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~

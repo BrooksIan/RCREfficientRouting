@@ -1,0 +1,47 @@
+[
+  {
+    "id": "corp-q3-revenue",
+    "text": "Acme Corp reported 18% year-over-year revenue growth in Q3, primarily driven by cloud subscription services.",
+    "doc_type": "knowledge"
+  },
+  {
+    "id": "corp-q3-margin",
+    "text": "Acme Corp cloud gross margin expanded to 72% in Q3 after optimizing infrastructure costs.",
+    "doc_type": "knowledge"
+  },
+  {
+    "id": "corp-q2-contrast",
+    "text": "In Q2, Acme Corp revenue growth was only 4% and was led by hardware sales rather than cloud.",
+    "doc_type": "knowledge"
+  },
+  {
+    "id": "corp-q3-customers",
+    "text": "Enterprise cloud customer count at Acme Corp rose from 1,200 to 1,480 during Q3.",
+    "doc_type": "knowledge"
+  },
+  {
+    "id": "corp-q3-churn",
+    "text": "Acme Corp cloud churn fell to 2.1% in Q3, supporting higher net revenue retention.",
+    "doc_type": "knowledge"
+  },
+  {
+    "id": "corp-guidance",
+    "text": "Management guided that cloud will remain the primary growth engine for Acme Corp through next fiscal year.",
+    "doc_type": "knowledge"
+  },
+  {
+    "id": "rival-noise",
+    "text": "Beta Industries launched a new cafeteria menu featuring seasonal pasta dishes.",
+    "doc_type": "knowledge"
+  },
+  {
+    "id": "support-runbook",
+    "text": "Support runbook: restart the billing worker if invoice generation stalls for more than 15 minutes.",
+    "doc_type": "knowledge"
+  },
+  {
+    "id": "ops-incident",
+    "text": "Ops note: the analytics pipeline SLA is 99.5% monthly availability; last incident was a 12-minute outage.",
+    "doc_type": "knowledge"
+  }
+]

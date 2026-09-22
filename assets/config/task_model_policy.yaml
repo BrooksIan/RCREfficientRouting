@@ -1,0 +1,49 @@
+# Task → preferred intended_task per agent role.
+# Used when RCR_TASK_MODEL_ROUTING is enabled (user opt-in; default off).
+#
+# knowledge_modulation:
+#   strong → prefer lower latency / cheaper among matches
+#   weak   → escalate to best capability score for the role
+#   medium → intended_task match only
+
+version: 1
+
+tasks:
+  reasoning:
+    prefer:
+      planner: reasoning
+      recommender: reasoning
+      searcher: extraction
+    escalate_roles: [planner, recommender]
+
+  extraction:
+    prefer:
+      searcher: extraction
+      planner: reasoning
+      recommender: synthesis
+    escalate_roles: [searcher]
+
+  synthesis:
+    prefer:
+      recommender: synthesis
+      planner: reasoning
+      searcher: extraction
+    escalate_roles: [recommender]
+
+  coding:
+    prefer:
+      planner: coding
+      searcher: coding
+      recommender: synthesis
+    escalate_roles: [planner]
+
+  routing:
+    prefer:
+      planner: routing
+      searcher: extraction
+      recommender: synthesis
+    escalate_roles: [planner]
+
+  generic:
+    prefer: {}
+    escalate_roles: [planner, searcher, recommender]

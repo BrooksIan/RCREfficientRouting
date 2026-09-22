@@ -1,0 +1,47 @@
+{
+  "index_patterns": ["rcr-working-memory", "rcr-knowledge"],
+  "template": {
+    "settings": {
+      "index": {
+        "knn": true,
+        "number_of_shards": 1,
+        "number_of_replicas": 0
+      }
+    },
+    "mappings": {
+      "properties": {
+        "text": { "type": "text" },
+        "embedding": {
+          "type": "knn_vector",
+          "dimension": 8,
+          "method": {
+            "name": "hnsw",
+            "space_type": "cosinesimil",
+            "engine": "nmslib"
+          }
+        },
+        "role_tag": { "type": "keyword" },
+        "stage_tag": { "type": "keyword" },
+        "source_agent": { "type": "keyword" },
+        "session_id": { "type": "keyword" },
+        "round": { "type": "integer" },
+        "timestamp": { "type": "double" },
+        "token_length": { "type": "integer" },
+        "doc_type": { "type": "keyword" },
+        "task": { "type": "keyword" },
+        "struct_key": { "type": "keyword" },
+        "struct_kind": { "type": "keyword" },
+        "structure": { "type": "object", "enabled": true },
+        "metadata": {
+          "type": "object",
+          "enabled": true,
+          "properties": {
+            "task": { "type": "keyword" },
+            "task_confidence": { "type": "float" },
+            "task_source": { "type": "keyword" }
+          }
+        }
+      }
+    }
+  }
+}

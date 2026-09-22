@@ -1,0 +1,22 @@
+[
+  {
+    "role": "generalist",
+    "description": "Handles general questions when no specialized role matches.",
+    "keywords": ["help", "overview", "general"]
+  },
+  {
+    "role": "analyst",
+    "description": "Answers analytical and reporting questions over business data.",
+    "keywords": ["revenue", "forecast", "kpi", "report", "metrics"]
+  },
+  {
+    "role": "support",
+    "description": "Handles product support, troubleshooting, and how-to requests.",
+    "keywords": ["error", "ticket", "how do i", "troubleshoot", "support"]
+  },
+  {
+    "role": "ops",
+    "description": "Covers operational status, incidents, and runbook-style guidance.",
+    "keywords": ["incident", "outage", "deploy", "pipeline", "sla"]
+  }
+]
