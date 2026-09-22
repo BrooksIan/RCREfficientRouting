@@ -309,6 +309,44 @@ def by_benchmark(rows: list[dict]) -> dict[str, Any]:
     return out
 
 
+_STUDY_ORDER = ("hotpotqa_style", "musique_style", "2wiki_style")
+_STUDY_TITLES = {
+    "hotpotqa_style": "HotPotQA-style",
+    "musique_style": "MuSiQue-style",
+    "2wiki_style": "2WikiMultihop-style",
+}
+
+
+def _append_strategy_table(lines: list[str], by_strategy: dict[str, Any]) -> None:
+    lines.append(
+        "| Strategy | Avg context tokens | Avg prompt tokens | Gold F1 | "
+        "Support recall | Lexical Q |"
+    )
+    lines.append(
+        "|----------|-------------------:|------------------:|--------:|"
+        "---------------:|----------:|"
+    )
+    for name in ("full", "static", "rcr"):
+        st = by_strategy.get(name, {})
+        lines.append(
+            f"| {name} | {st.get('avg_context_tokens', '—')} | "
+            f"{st.get('avg_prompt_tokens', '—')} | {st.get('avg_gold_f1', '—')} | "
+            f"{st.get('avg_support_recall', '—')} | {st.get('avg_lexical_quality', '—')} |"
+        )
+
+
+def _append_savings_table(lines: list[str], savings: dict[str, Any]) -> None:
+    lines.append("| Strategy vs Full | Context token reduction | Prompt token reduction | Gold F1 Δ |")
+    lines.append("|------------------|------------------------:|-----------------------:|----------:|")
+    for name in ("static", "rcr"):
+        sv = savings.get(name, {})
+        lines.append(
+            f"| {name} | −{sv.get('context_token_reduction_pct', '—')}% | "
+            f"−{sv.get('prompt_token_reduction_pct', '—')}% | "
+            f"{sv.get('gold_f1_delta', '—')} |"
+        )
+
+
 def write_report(
     path: Path,
     *,
@@ -318,9 +356,10 @@ def write_report(
     meta: dict[str, Any],
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    s = summary["by_strategy"]
     sav = summary.get("savings_vs_full", {})
     rcr_save = sav.get("rcr", {})
+    rcr_pct = rcr_save.get("context_token_reduction_pct")
+
     lines = [
         "# Multi-hop RCR experiment: token savings vs answer quality",
         "",
@@ -348,78 +387,52 @@ def write_report(
         "- **Metrics:** routed `context_tokens`, LLM `prompt_tokens`, gold-answer unigram F1, "
         "supporting-passage recall in routed context, lexical answer quality [1–5].",
         "",
-        "## Results (aggregate)",
+        "## Results by study",
         "",
-        "| Strategy | Avg context tokens | Avg prompt tokens | Gold F1 | Support recall | Lexical Q |",
-        "|----------|-------------------:|------------------:|--------:|---------------:|----------:|",
-    ]
-    for name in ("full", "static", "rcr"):
-        st = s.get(name, {})
-        lines.append(
-            f"| {name} | {st.get('avg_context_tokens', '—')} | "
-            f"{st.get('avg_prompt_tokens', '—')} | {st.get('avg_gold_f1', '—')} | "
-            f"{st.get('avg_support_recall', '—')} | {st.get('avg_lexical_quality', '—')} |"
-        )
-    lines += [
-        "",
-        "### Savings vs Full",
+        "Each study is reported separately (HotPotQA-style, MuSiQue-style, "
+        "2WikiMultihop-style).",
         "",
     ]
-    for name in ("static", "rcr"):
-        sv = sav.get(name, {})
-        lines.append(
-            f"- **{name}:** context −{sv.get('context_token_reduction_pct', '—')}%, "
-            f"prompt −{sv.get('prompt_token_reduction_pct', '—')}%, "
-            f"gold F1 Δ {sv.get('gold_f1_delta', '—')}"
-        )
-    rcr_pct = rcr_save.get("context_token_reduction_pct")
+
+    # Prefer paper claim order; append any unexpected keys last.
+    ordered = [k for k in _STUDY_ORDER if k in bench]
+    ordered += [k for k in bench if k not in ordered]
+
+    for bname in ordered:
+        bsum = bench[bname]
+        title = _STUDY_TITLES.get(bname, bname)
+        n = bsum.get("by_strategy", {}).get("full", {}).get("n", "?")
+        lines.append(f"### {title}")
+        lines.append("")
+        lines.append(f"_{n} questions · fixture family `{bname}`_")
+        lines.append("")
+        _append_strategy_table(lines, bsum.get("by_strategy", {}))
+        lines.append("")
+        lines.append("#### Savings vs Full")
+        lines.append("")
+        _append_savings_table(lines, bsum.get("savings_vs_full", {}))
+        lines.append("")
+
     verdict = (
-        f"RCR reduced average routed context tokens by **{rcr_pct}%** vs Full "
+        f"Across studies, RCR reduced average routed context tokens by **{rcr_pct}%** vs Full "
         f"while gold F1 Δ was **{rcr_save.get('gold_f1_delta')}** "
         f"(positive/near-zero ⇒ quality maintained or improved)."
         if rcr_pct is not None
         else "RCR savings not computed."
     )
     lines += [
+        "## Cross-study verdict",
         "",
         f"**Verdict:** {verdict}",
         "",
         "Paper claim of *up to 30%* token reduction: "
         + (
-            f"this run measured **{rcr_pct}%** context-token reduction "
+            f"pooled RCR context-token reduction was **{rcr_pct}%** "
             f"({'meets or exceeds' if (rcr_pct or 0) >= 30 else 'below'} the 30% headline on this fixture set)."
             if rcr_pct is not None
             else "n/a"
         ),
         "",
-        "## By benchmark family",
-        "",
-    ]
-    for bname, bsum in bench.items():
-        lines.append(f"### {bname}")
-        lines.append("")
-        bs = bsum["by_strategy"]
-        bsv = bsum.get("savings_vs_full", {})
-        lines.append(
-            f"| Strategy | Ctx tokens | Prompt | Gold F1 | Support recall |"
-        )
-        lines.append("|----------|----------:|-------:|--------:|---------------:|")
-        for name in ("full", "static", "rcr"):
-            st = bs.get(name, {})
-            lines.append(
-                f"| {name} | {st.get('avg_context_tokens', '—')} | "
-                f"{st.get('avg_prompt_tokens', '—')} | {st.get('avg_gold_f1', '—')} | "
-                f"{st.get('avg_support_recall', '—')} |"
-            )
-        r = bsv.get("rcr", {})
-        lines.append("")
-        lines.append(
-            f"RCR vs Full: context −{r.get('context_token_reduction_pct', '—')}%, "
-            f"F1 Δ {r.get('gold_f1_delta', '—')}."
-        )
-        lines.append("")
-
-    lines += [
         "## How to reproduce",
         "",
         "```bash",

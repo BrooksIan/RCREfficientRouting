@@ -14,54 +14,66 @@ Paper: [arXiv:2508.04903](https://arxiv.org/abs/2508.04903) §Experiments. This 
 - **LLM:** deterministic experiment mock that emits the gold answer only when enough supporting evidence appears in routed context (isolates routing quality).
 - **Metrics:** routed `context_tokens`, LLM `prompt_tokens`, gold-answer unigram F1, supporting-passage recall in routed context, lexical answer quality [1–5].
 
-## Results (aggregate)
+## Results by study
+
+Each study is reported separately (HotPotQA-style, MuSiQue-style, 2WikiMultihop-style).
+
+### HotPotQA-style
+
+_3 questions · fixture family `hotpotqa_style`_
 
 | Strategy | Avg context tokens | Avg prompt tokens | Gold F1 | Support recall | Lexical Q |
 |----------|-------------------:|------------------:|--------:|---------------:|----------:|
-| full | 12141.4 | 12705.0 | 1.0 | 1.0 | 3.891 |
-| static | 2194.6 | 2487.4 | 1.0 | 0.9444 | 3.663 |
-| rcr | 3658.7 | 3992.7 | 1.0 | 1.0 | 3.891 |
+| full | 12731.7 | 13318.0 | 1.0 | 1.0 | 3.953 |
+| static | 2157.0 | 2470.3 | 1.0 | 1.0 | 3.897 |
+| rcr | 3653.0 | 4007.7 | 1.0 | 1.0 | 3.953 |
 
-### Savings vs Full
+#### Savings vs Full
 
-- **static:** context −81.9%, prompt −80.4%, gold F1 Δ 0.0
-- **rcr:** context −69.9%, prompt −68.6%, gold F1 Δ 0.0
+| Strategy vs Full | Context token reduction | Prompt token reduction | Gold F1 Δ |
+|------------------|------------------------:|-----------------------:|----------:|
+| static | −83.1% | −81.5% | 0.0 |
+| rcr | −71.3% | −69.9% | 0.0 |
 
-**Verdict:** RCR reduced average routed context tokens by **69.9%** vs Full while gold F1 Δ was **0.0** (positive/near-zero ⇒ quality maintained or improved).
+### MuSiQue-style
 
-Paper claim of *up to 30%* token reduction: this run measured **69.9%** context-token reduction (meets or exceeds the 30% headline on this fixture set).
+_3 questions · fixture family `musique_style`_
 
-## By benchmark family
+| Strategy | Avg context tokens | Avg prompt tokens | Gold F1 | Support recall | Lexical Q |
+|----------|-------------------:|------------------:|--------:|---------------:|----------:|
+| full | 12021.3 | 12588.0 | 1.0 | 1.0 | 3.803 |
+| static | 2233.3 | 2525.3 | 1.0 | 1.0 | 3.477 |
+| rcr | 3658.7 | 3994.3 | 1.0 | 1.0 | 3.803 |
 
-### hotpotqa_style
+#### Savings vs Full
 
-| Strategy | Ctx tokens | Prompt | Gold F1 | Support recall |
-|----------|----------:|-------:|--------:|---------------:|
-| full | 12731.7 | 13318.0 | 1.0 | 1.0 |
-| static | 2157.0 | 2470.3 | 1.0 | 1.0 |
-| rcr | 3653.0 | 4007.7 | 1.0 | 1.0 |
+| Strategy vs Full | Context token reduction | Prompt token reduction | Gold F1 Δ |
+|------------------|------------------------:|-----------------------:|----------:|
+| static | −81.4% | −79.9% | 0.0 |
+| rcr | −69.6% | −68.3% | 0.0 |
 
-RCR vs Full: context −71.3%, F1 Δ 0.0.
+### 2WikiMultihop-style
 
-### musique_style
+_3 questions · fixture family `2wiki_style`_
 
-| Strategy | Ctx tokens | Prompt | Gold F1 | Support recall |
-|----------|----------:|-------:|--------:|---------------:|
-| full | 12021.3 | 12588.0 | 1.0 | 1.0 |
-| static | 2233.3 | 2525.3 | 1.0 | 1.0 |
-| rcr | 3658.7 | 3994.3 | 1.0 | 1.0 |
+| Strategy | Avg context tokens | Avg prompt tokens | Gold F1 | Support recall | Lexical Q |
+|----------|-------------------:|------------------:|--------:|---------------:|----------:|
+| full | 11671.3 | 12209.0 | 1.0 | 1.0 | 3.917 |
+| static | 2193.3 | 2466.7 | 1.0 | 0.8333 | 3.617 |
+| rcr | 3664.3 | 3976.0 | 1.0 | 1.0 | 3.917 |
 
-RCR vs Full: context −69.6%, F1 Δ 0.0.
+#### Savings vs Full
 
-### 2wiki_style
+| Strategy vs Full | Context token reduction | Prompt token reduction | Gold F1 Δ |
+|------------------|------------------------:|-----------------------:|----------:|
+| static | −81.2% | −79.8% | 0.0 |
+| rcr | −68.6% | −67.4% | 0.0 |
 
-| Strategy | Ctx tokens | Prompt | Gold F1 | Support recall |
-|----------|----------:|-------:|--------:|---------------:|
-| full | 11671.3 | 12209.0 | 1.0 | 1.0 |
-| static | 2193.3 | 2466.7 | 1.0 | 0.8333 |
-| rcr | 3664.3 | 3976.0 | 1.0 | 1.0 |
+## Cross-study verdict
 
-RCR vs Full: context −68.6%, F1 Δ 0.0.
+**Verdict:** Across studies, RCR reduced average routed context tokens by **69.9%** vs Full while gold F1 Δ was **0.0** (positive/near-zero ⇒ quality maintained or improved).
+
+Paper claim of *up to 30%* token reduction: pooled RCR context-token reduction was **69.9%** (meets or exceeds the 30% headline on this fixture set).
 
 ## How to reproduce
 
