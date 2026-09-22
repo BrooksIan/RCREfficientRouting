@@ -1,5 +1,13 @@
 # Cloudera Blueprint: RCR — Role-Based Agent Routing
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](pyproject.toml)
+[![Cloudera Blueprint](https://img.shields.io/badge/Cloudera-Blueprint-f96702.svg)](METADATA.yaml)
+[![Catalog](https://img.shields.io/badge/Catalog-Launchable%20(AMP)-6b4cff.svg)](METADATA.yaml)
+[![Stars](https://img.shields.io/github/stars/BrooksIan/RCREfficientRouting?logo=github)](https://github.com/BrooksIan/RCREfficientRouting/stargazers)
+[![Watchers](https://img.shields.io/github/watchers/BrooksIan/RCREfficientRouting?logo=github)](https://github.com/BrooksIan/RCREfficientRouting/watchers)
+[![Forks](https://img.shields.io/github/forks/BrooksIan/RCREfficientRouting?logo=github)](https://github.com/BrooksIan/RCREfficientRouting/network/members)
+
 > This repository follows the [Cloudera Blueprints Standard](https://github.com/kevinbtalbert/Cloudera-Blueprints-Standard) for catalog-facing content (`README.md`, `METADATA.yaml`) and the [CML Community AMP Template](https://github.com/cloudera/CML_Community_AMP_Template) for launchable AMP structure (`.project-metadata.yaml`, numbered CML component folders, `cdsw-build.sh`).
 
 **RCR** (*Role-aware Context Routing*) sends each agent only the memory slice that matters for its role and stage—under a token budget—instead of the full shared history. Implementation follows [RCR-Router (arXiv:2508.04903v3 §2)](https://arxiv.org/html/2508.04903v3#Sx2). Shared memory and semantic knowledge live in **OpenSearch OSS**. All LLM and embedding calls go through **LiteLLM**.
