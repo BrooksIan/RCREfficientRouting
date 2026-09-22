@@ -5,7 +5,7 @@
 name: "RCR — Role-Based Agent Routing"
 slug: "role-based-agent-routing"
 description: "RCR (Role-aware Context Routing): token-budgeted multi-agent memory slices with OpenSearch and LiteLLM—less full-history dumping, lower LLM cost."
-reprise_link: "https://github.com/cloudera/RoleBasedAgentRouting"
+reprise_link: "https://github.com/BrooksIan/RCREfficientRouting"
 
 # --- Classification (website filters) ---
 catalog_classification:
@@ -18,15 +18,20 @@ industry: General
 industry_alignment: "Horizontal"
 target_vertical: ""
 
-# --- Tags (website search & browse) ---
+# --- Tags (website search & browse / GitHub topics) ---
 tags:
   - agents
+  - multi-agent
   - routing
+  - rcr
   - rcr-router
+  - token-efficiency
   - opensearch
   - litellm
   - orchestration
   - cloudera-machine-learning
+  - cloudera-ai-inference
+  - amp
 
 # --- Relationships ---
 product_mapping:
@@ -40,7 +45,7 @@ publisher: cloudera
 source: Internal
 
 # --- Repository & assets ---
-public_github_link: "https://github.com/cloudera/RoleBasedAgentRouting"
+public_github_link: "https://github.com/BrooksIan/RCREfficientRouting"
 
 # --- Ownership ---
 maintainer_name: "Cloudera"

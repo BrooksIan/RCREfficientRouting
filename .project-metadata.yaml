@@ -217,6 +217,7 @@ tasks:
 
   - type: start_application
     name: Role-Based Agent Routing UI
+    entity_label: role-routing-ui
     short_summary: Compare Full / Static / RCR routing with per-agent context traces.
     long_summary: |
       Streamlit application to submit queries, inspect routed context per agent/round,

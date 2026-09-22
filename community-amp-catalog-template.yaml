@@ -2,7 +2,7 @@ name: Community
 
 entries:
   - title: RCR — Role-Based Agent Routing
-    label: RoleBasedAgentRouting
+    label: RCREfficientRouting
     short_description: |
       RCR (Role-aware Context Routing): token-budgeted multi-agent memory slices
       with OpenSearch and LiteLLM—cut redundant context cost vs full-history dumps.
@@ -21,16 +21,18 @@ entries:
       in the Streamlit UI. Optional capability discovery and task→model routing
       map work to the right endpoint.</p>
     image_path: >-
-      https://raw.githubusercontent.com/cloudera/RoleBasedAgentRouting/main/assets/images/cover.png
+      https://raw.githubusercontent.com/BrooksIan/RCREfficientRouting/main/assets/images/cover.png
     tags:
       - Agents
       - Routing
       - RCR
+      - Multi-Agent
       - Orchestration
       - CML
       - OpenSearch
       - LiteLLM
-    git_url: 'https://github.com/cloudera/RoleBasedAgentRouting'
+      - Token-Efficiency
+    git_url: 'https://github.com/BrooksIan/RCREfficientRouting'
     is_prototype: true
     is_community: true
     is_new: true
