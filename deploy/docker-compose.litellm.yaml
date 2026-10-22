@@ -16,7 +16,9 @@
 
 services:
   litellm:
-    image: ghcr.io/berriai/litellm:main-latest
+    # Pin by digest. main-latest / latest were the compromised 1.107.0 images
+    # (https://github.com/BerriAI/litellm/issues/47826) and those tags are deleted.
+    image: ghcr.io/berriai/litellm:v1.106.2@sha256:7294b90f868c5c38c99b83021c7ba46f9b439e95f8e32964c925c7d2563a03f7
     container_name: rcr-litellm
     ports:
       - "4000:4000"

@@ -23,7 +23,7 @@ keywords = [
 ]
 dependencies = [
   "opensearch-py>=2.4.0",
-  "litellm>=1.40.0",
+  "litellm==1.106.2",
   "tiktoken>=0.7.0",
   "streamlit>=1.28.0",
   "pyyaml>=6.0",
